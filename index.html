@@ -535,8 +535,29 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt
 const ic = (id, cls="") => `<svg class="i ${cls}" aria-hidden="true"><use href="#${id}"/></svg>`;
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const app = $("#app");
-const ORIGINAL = $("#state").textContent;
-let S = JSON.parse(ORIGINAL);
+const ASSET_PATHS = {
+  "37689a6c09a60cecfa4e1c1c4f101723":"Sebuano_EA_VA_Portfolio_DATA_ENTRY.xlsx",
+  "7db752486909c83442752982772384de":"Sebuano_EA_VA_Portfolio_CALENDAR_MANAGEMENT.xlsx",
+  "2ba4a6f44765cfe5224cc82de8857931":"Sebuano_EA_VA_Portfolio_EMAIL MANAGEMENT.xlsx",
+  "00fb6b08e1dbbb3f87bac5889647c347":"Sebuano_EA_VA_Portfolio_ONLINE_RESEARCH.xlsx",
+  "02d66d71f2b7cb7190b5c2ad4a53780b":"Sebuano_EA_VA_Portfolio_SOC_MED_MANAGEMENT.xlsx",
+  "28373e31acb16572f2c2a1a7c28a86d9":"28373e31acb16572f2c2a1a7c28a86d9.jpg",
+  "c67e881ddf40c30a84fba2e76c2d8c3f":"c67e881ddf40c30a84fba2e76c2d8c3f.jpg",
+  "f33c587d19616f5723d98b9a52ee6a52":"f33c587d19616f5723d98b9a52ee6a52.jpg"
+};
+function localizeAssets(state){
+  for(const item of state.mock){
+    const path = item.file && ASSET_PATHS[item.file.id];
+    if(path){ item.file.url = "./assets/" + encodeURIComponent(path); item.file.wrapped = false; }
+  }
+  for(const item of state.branding){
+    const path = ASSET_PATHS[item.id];
+    if(path) item.url = "./assets/" + encodeURIComponent(path);
+  }
+  return state;
+}
+let S = localizeAssets(JSON.parse($("#state").textContent));
+const ORIGINAL = JSON.stringify(S);
 let editing = false, art = null, canEdit = false, tab = "mock", wkind = "All", qaQuery = "";
 const safeUrl = u => /^https?:\/\//i.test(u || "") ? u : "";
 function fixUrl(u){ u = String(u || "").trim(); if(!u) return ""; return /^https?:\/\//i.test(u) ? u : "https://" + u; }
