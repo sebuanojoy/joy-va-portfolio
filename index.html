@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" href="./45809c7b312bf958f0dc6e51e09217ac.jpg" type="image/jpeg"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><title>Joy's VA Portfolio</title>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" href="./1.png" type="image/png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><title>Joy's VA Portfolio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
 <style id="page-css">
@@ -798,17 +798,13 @@ function renderSheet(box, bytes, isCsv){
   };
   show(wb.SheetNames[0]);
 }
-async function downloadFile(file){
-  const d = await claude.use("downloads");
-  if(!d){ toast("Downloading isn't available in this view"); return; }
-  try{
-    const bytes = await fileBytes(file);
-    await d.save({filename: file.name, data: new Blob([bytes])});
-  }catch(err){
-    const c = err && err.code;
-    if(c === "declined") return;
-    toast(c === "rejected_extension" ? "This file type can't be downloaded here" : "The download didn't start. Try again.");
-  }
+function downloadFile(file){
+  const link = document.createElement("a");
+  link.href = file.url;
+  link.download = file.name;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
 }
 function openMock(i){
   const m = S.mock[i]; const f = m.file; const k = fileKind(f);
@@ -1103,7 +1099,7 @@ function buildDoc(){
     '<div id="app"></div>', $("#tpl").outerHTML,
     `<script type="application/json" id="state">${json}<\/script>`, $("#main-js").outerHTML
   ].join("\n");
-  return `<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>${reset}</style></head><body>${body}</body></html>`;
+  return `<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" href="./1.png" type="image/png"><style>${reset}</style></head><body>${body}</body></html>`;
 }
 let saving = false;
 async function save(){
