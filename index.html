@@ -798,20 +798,11 @@ function renderSheet(box, bytes, isCsv){
   };
   show(wb.SheetNames[0]);
 }
-function downloadFile(file){
-  const link = document.createElement("a");
-  link.href = file.url;
-  link.download = file.name;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-}
 function openMock(i){
   const m = S.mock[i]; const f = m.file; const k = fileKind(f);
   const mo = modal(`<span class="tag">${k === "sheet" ? "Spreadsheet" : k === "pdf" ? "PDF" : k === "image" ? "Image" : "Mock-up task"}</span>
     <h3>${esc(m.title)}</h3><p class="mdesc">${esc(m.desc)}</p><div class="media" id="m-media"></div>
-    <div class="row" style="margin-top:16px">${f ? `<button class="btn sm" type="button" id="m-dl">${ic("dl")} Download ${esc(extOf(f.name).toUpperCase())}</button>` : ""}${safeUrl(fixUrl(m.link)) ? `<a class="btn sm alt" href="${esc(safeUrl(fixUrl(m.link)))}" target="_blank" rel="noopener">${ic("ext")} Open link</a>` : ""}<a class="btn sm alt" href="#connect">Ask about this task</a></div>`, true, m.title);
-  if(f) $("#m-dl", mo).addEventListener("click", () => downloadFile(f));
+    <div class="row" style="margin-top:16px">${f ? `<a class="btn sm" id="m-dl" href="${esc(f.url)}" download="${esc(f.name)}">${ic("dl")} Download ${esc(extOf(f.name).toUpperCase())}</a>` : ""}${safeUrl(fixUrl(m.link)) ? `<a class="btn sm alt" href="${esc(safeUrl(fixUrl(m.link)))}" target="_blank" rel="noopener">${ic("ext")} Open link</a>` : ""}<a class="btn sm alt" href="#connect">Ask about this task</a></div>`, true, m.title);
   const box = $("#m-media", mo);
   if(!f){ box.innerHTML = '<p class="hint">No file attached yet.</p>'; return; }
   if(k === "image"){ box.innerHTML = `<img src="${esc(f.url)}" alt="${esc(m.title)}">`; return; }
