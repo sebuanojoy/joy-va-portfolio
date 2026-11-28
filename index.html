@@ -1,6 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" type="image/png" href="./1.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>Joy's VA Portfolio</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Joy's VA Portfolio</title><link rel="icon" type="image/png" href="./1.png"><meta name="claude:viewport-fit-sides" content="cover"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <style id="page-css">
 /* Layout: sticky pill nav, one hash-routed page at a time. Cool lilac-grey paper, deep plum-navy ink, periwinkle accent with a rose nod to "Her". Content renders from a JSON state so edit mode can save the page into itself. */
 :root{
@@ -300,8 +298,6 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;paddin
 .modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;padding-top:calc(20px + env(safe-area-inset-top,0px));padding-bottom:calc(20px + env(safe-area-inset-bottom,0px));background:rgba(18,17,32,.55);backdrop-filter:blur(4px)}
 .modal .card{max-width:640px;width:100%;max-height:88vh;overflow:auto;position:relative;animation:rise .3s ease}
 .modal.wide .card{max-width:1000px}
-.drive-preview{margin:14px 0}
-.drive-preview iframe{display:block;width:100%;height:min(72vh,720px);border:0;border-radius:14px;background:var(--bg2)}
 .modal .x{position:absolute;top:14px;right:14px}
 .modal h3{font-size:1.6rem;margin:6px 48px 6px 0}
 .mdesc{color:var(--muted);margin-bottom:16px}
@@ -469,7 +465,21 @@ h3,h4,.sub-head,.qk b,.gp h3{font-family:var(--display);font-weight:400;letter-s
 #bookbox{margin-top:16px}
 .btn.book{width:100%;justify-content:center;padding:15px 20px;font-size:.95rem}
 .book-note{font-size:.8rem;color:var(--muted);text-align:center;margin-top:6px}
-</style></head><body>
+
+/* contact form (Web3Forms) */
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.nstatus{font-size:.85rem;margin-top:8px;min-height:1.2em}
+.nstatus.err{color:#c0392b;font-weight:600}
+.nstatus.busy{color:var(--muted)}
+.field.bad input,.field.bad textarea{border-color:#c0392b}
+.btn[aria-busy="true"]{opacity:.7;cursor:progress}
+.sent{text-align:center;padding:26px 16px;border-radius:20px;background:var(--accent-soft);animation:rise .4s ease}
+.sent[hidden]{display:none}
+.sent-ic{width:52px;height:52px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-size:1.4rem}
+.sent h3{font-family:var(--display);font-weight:400;font-size:2rem;margin:0 0 6px}
+.sent p{color:var(--muted);margin-bottom:14px}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
 <svg id="defs" width="0" height="0" style="position:absolute" aria-hidden="true">
 <defs>
 <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
@@ -651,13 +661,18 @@ h3,h4,.sub-head,.qk b,.gp h3{font-family:var(--display);font-weight:400;letter-s
       </div>
       <div class="card">
         <span class="eyebrow">Send me a message</span>
-        <form id="note" style="margin-top:14px">
+        <form id="note" style="margin-top:14px" novalidate>
+          <div class="sent" id="sent" hidden tabindex="-1"><span class="sent-ic"><svg class="i"><use href="#check"></use></svg></span><h3>Message sent!</h3><p>Thank you for reaching out. Joy will reply to your email soon.</p><button class="btn sm alt" type="button" id="nagain">Send another message</button></div>
+          <div id="nfields">
           <div class="field"><label for="nm">Your name</label><input id="nm" autocomplete="name" placeholder="Your name"></div>
           <div class="field"><label for="ye">Your email (so I can reply)</label><input id="ye" type="email" autocomplete="email" placeholder="you@company.com"></div>
           <div class="field"><label for="sv">I'm interested in</label><select id="sv"></select></div>
           <div class="field"><label for="ms">Message</label><textarea id="ms" placeholder="Hi Joy, I'm looking for help with…"></textarea></div>
-          <div class="row"><a class="btn" id="gsend" href="#" target="_blank" rel="noopener">Write it in Gmail <svg class="i"><use href="#mail"></use></svg></a><button class="btn alt" type="button" id="cpnote">Copy message <svg class="i"><use href="#copy"></use></svg></button></div>
-          <p class="hint">This opens a Gmail draft to Joy with your message filled in. Press Send in Gmail to deliver it. No Gmail? Copy the message and email it to <b id="hintmail"></b>.</p>
+          <input type="checkbox" name="botcheck" id="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="row"><button class="btn" type="submit" id="nsend">Send message <svg class="i"><use href="#mail"></use></svg></button><a class="btn alt" id="gsend" href="#" target="_blank" rel="noopener">Write it in Gmail instead</a></div>
+          <p class="hint" id="nhint">Your message goes straight to Joy's inbox. Prefer your own email? Write to <b id="hintmail"></b>.</p>
+          <div class="nstatus" id="nstatus" role="status" aria-live="polite"></div>
+          </div>
         </form>
       </div>
     </div>
@@ -683,11 +698,6 @@ const ORIGINAL = $("#state").textContent;
 let S = JSON.parse(ORIGINAL);
 let editing = false, art = null, canEdit = false, tab = "mock", wkind = "All", qaQuery = "";
 const safeUrl = u => /^https?:\/\//i.test(u || "") ? u : "";
-const RESUME_FILE_PREVIEW = "https://drive.google.com/file/d/1rQ-ynkXEU1W0U9bnSY6b6Su0_f1rE_Yn/preview";
-function openResumePreview(){
-  const folder = safeUrl(S.resume); if(!folder) return;
-  modal(`<span class="eyebrow">Resume</span><h3 style="margin:6px 48px 14px 0">Preview my resume</h3><div class="drive-preview"><iframe src="${RESUME_FILE_PREVIEW}" title="Resume PDF preview" allow="autoplay"></iframe></div><a class="btn sm alt" href="${esc(folder)}" target="_blank" rel="noopener">${ic("ext")} Open in Google Drive</a>`, true, "Resume preview");
-}
 function fixUrl(u){ u = String(u || "").trim(); if(!u) return ""; return /^https?:\/\//i.test(u) ? u : "https://" + u; }
 function getP(p){ return p.split(".").reduce((o,k) => o == null ? o : o[k], S); }
 function setP(p, v){ const ks = p.split("."); let o = S; for(let i = 0; i < ks.length - 1; i++) o = o[ks[i]]; o[ks[ks.length-1]] = v; }
@@ -783,9 +793,7 @@ function renderHome(){
   $$("[data-niche]", hn).forEach(b => b.addEventListener("click", () => { location.hash = "services"; }));
   const hl = $("#hero-links");
   hl.innerHTML = editing ? "" : (safeUrl(S.resume) ? `<a class="btn alt" href="${esc(safeUrl(S.resume))}" target="_blank" rel="noopener">${ic("doc")} View my resume</a>` : "")
-    + (safeUrl(S.resume) ? `<button class="btn alt" type="button" data-resume-preview>${ic("doc")} Preview resume</button>` : "")
     + (safeUrl(fixUrl(S.general)) ? `<a class="btn alt" href="${esc(safeUrl(fixUrl(S.general)))}" target="_blank" rel="noopener">${ic("globe")} View my General Portfolio</a>` : "");
-  $$("[data-resume-preview]", hl).forEach(b => b.addEventListener("click", openResumePreview));
   const gpu = safeUrl(fixUrl(S.general)), gh = $("#gp-home");
   if(gh){ gh.hidden = editing || !gpu; $("#gp-home-btn").innerHTML = gpu ? `<a class="btn" href="${esc(gpu)}" target="_blank" rel="noopener">${ic("globe")} View my General Portfolio <svg class="i arr"><use href="#arrow"/></svg></a>` : ""; }
   const cc = $("#cert-count"); if(cc) cc.textContent = S.certs.length + (S.certs.length === 1 ? " certificate" : " certificates");
@@ -1031,6 +1039,10 @@ function renderSheet(box, bytes, isCsv){
 async function downloadFile(file){
   try{
     const bytes = await fileBytes(file);
+    if(typeof claude !== "undefined" && claude.use){
+      const d = await claude.use("downloads");
+      if(d){ await d.save({filename: file.name, data: new Blob([bytes])}); return; }
+    }
     const mime = {
       xlsx:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       xls:"application/vnd.ms-excel", csv:"text/csv", pdf:"application/pdf",
@@ -1041,7 +1053,9 @@ async function downloadFile(file){
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }catch(err){
-    toast("The download didn't start. Check the connection and try again.");
+    const c = err && err.code;
+    if(c === "declined") return;
+    toast(c === "rejected_extension" ? "This file type can't be downloaded here" : "The download didn't start. Try again.");
   }
 }
 function openMock(i){
@@ -1240,6 +1254,36 @@ function renderQA(){
 
 /* ================= CONNECT ================= */
 const SOC = [["facebook","Facebook","fb","#1877f2"],["instagram","Instagram","ig","#d6249f"],["tiktok","TikTok","tt","#111111"],["linkedin","LinkedIn","li","#0a66c2"],["onlinejobs","OnlineJobsPH","oj","#1f6fb5"]];
+const EXTRA = () => ({"interested in": $("#sv").value || "Just saying hello"});
+/* send through Web3Forms (delivers to the inbox linked to this access key) */
+const W3F_KEY = "0615002e-4fca-4f21-8f22-2afe3b9413ef";
+function noteStatus(msg, cls){ const st = $("#nstatus"); st.textContent = msg; st.className = "nstatus" + (cls ? " " + cls : ""); }
+async function sendNote(){
+  const f = $("#note"); if(f.dataset.busy) return;
+  const n = $("#nm").value.trim(), e = $("#ye").value.trim(), m = $("#ms").value.trim();
+  $$(".field", f).forEach(x => x.classList.remove("bad"));
+  const bad = [];
+  if(!n) bad.push("nm");
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) bad.push("ye");
+  if(!m) bad.push("ms");
+  if(bad.length){ bad.forEach(id => $("#" + id).closest(".field").classList.add("bad")); $("#" + bad[0]).focus(); noteStatus(bad[0] === "ye" ? "Please enter a valid email so Joy can reply." : "Please fill in your name, email and message.", "err"); return; }
+  if($("#botcheck").checked) return;
+  const p = noteParts(), btn = $("#nsend");
+  f.dataset.busy = "1"; btn.setAttribute("aria-busy", "true"); btn.disabled = true; noteStatus("Sending…", "busy");
+  const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 15000);
+  try{
+    const res = await fetch("https://api.web3forms.com/submit", {method:"POST", headers:{"Content-Type":"application/json", Accept:"application/json"}, signal: ctl.signal,
+      body: JSON.stringify(Object.assign({access_key: W3F_KEY, subject: p.subject, from_name: n + " (portfolio)", name: n, email: e, replyto: e, message: m, botcheck: false}, EXTRA()))});
+    const j = await res.json().catch(() => ({}));
+    if(!res.ok || j.success === false) throw new Error(j.message || "failed");
+    f.reset(); noteStatus("");
+    $("#nfields").hidden = true; const ok = $("#sent"); ok.hidden = false; ok.focus();
+  }catch(err){
+    noteStatus("Sorry, the message couldn't be sent from here. Please use “Write it in Gmail instead”, or email " + S.email + ".", "err");
+  }finally{
+    clearTimeout(timer); delete f.dataset.busy; btn.removeAttribute("aria-busy"); btn.disabled = false;
+  }
+}
 function noteParts(){
   const n = $("#nm").value.trim(), e = $("#ye").value.trim(), m = $("#ms").value.trim(), sv = $("#sv").value;
   const body = "Hi Joy,\n\n" + m + "\n\n" + (n ? "– " + n : "") + (e ? "\n" + e : "");
@@ -1256,11 +1300,8 @@ function wireNote(){
     if(!$("#ms").value.trim()){ e.preventDefault(); toast("Write your message first"); $("#ms").focus(); return; }
     updNote(); toast("Gmail is opening with your message. Press Send there.");
   });
-  $("#cpnote").addEventListener("click", () => {
-    if(!$("#ms").value.trim()){ toast("Write your message first"); $("#ms").focus(); return; }
-    const p = noteParts(); copy("To: " + S.email + "\nSubject: " + p.subject + "\n\n" + p.body, "Message copied. Paste it into any email app.");
-  });
-  $("#note").addEventListener("submit", e => e.preventDefault());
+  $("#note").addEventListener("submit", e => { e.preventDefault(); sendNote(); });
+  $("#nagain").addEventListener("click", () => { $("#sent").hidden = true; $("#nfields").hidden = false; updNote(); $("#nm").focus(); });
 }
 function renderConnect(){
   renderBook();
@@ -1278,9 +1319,8 @@ function renderConnect(){
   const line = (icon, key) => `<div class="copyline">${ic(icon)}<code>${esc(S[key])}</code><button class="btn sm alt" data-cp="${key}" type="button" aria-label="Copy ${key}">${ic("copy")} Copy</button></div>`;
   mb.innerHTML = line("mail","email") + line("phone","phone") + line("pin","address");
   $$("[data-cp]", mb).forEach(b => b.addEventListener("click", () => copy(S[b.dataset.cp], "Copied")));
-  cl.innerHTML = (safeUrl(S.resume) ? `<a class="btn sm" href="${esc(safeUrl(S.resume))}" target="_blank" rel="noopener">${ic("doc")} View my resume</a><button class="btn sm alt" type="button" data-resume-preview>${ic("doc")} Preview resume</button>` : "")
+  cl.innerHTML = (safeUrl(S.resume) ? `<a class="btn sm" href="${esc(safeUrl(S.resume))}" target="_blank" rel="noopener">${ic("doc")} View my resume</a>` : "")
     + (safeUrl(fixUrl(S.general)) ? `<a class="btn sm dark" href="${esc(safeUrl(fixUrl(S.general)))}" target="_blank" rel="noopener">${ic("globe")} View my General Portfolio</a>` : "");
-  $$("[data-resume-preview]", cl).forEach(b => b.addEventListener("click", openResumePreview));
   so.innerHTML = SOC.filter(([k]) => safeUrl(fixUrl(S.socials[k]))).map(([k, l, icn, col]) => `<a class="soc" href="${esc(safeUrl(fixUrl(S.socials[k])))}" target="_blank" rel="noopener"><span class="si" style="background:${col}">${ic(icn)}</span>${l}</a>`).join("")
     + (S.links || []).filter(x => safeUrl(fixUrl(x.url))).map(x => `<a class="soc" href="${esc(safeUrl(fixUrl(x.url)))}" target="_blank" rel="noopener"><span class="si lk">${ic("globe")}</span>${esc(x.label || "Link")}</a>`).join("");
 }
